@@ -1,0 +1,45 @@
+<Window x:Class="Asynchronous_Operations.MakeTea"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Asynchronous_Operations"
+        mc:Ignorable="d"
+        Title="MakeTea" Height="450" Width="800" WindowStartupLocation="CenterScreen">
+    <DockPanel>
+        <Grid Margin="5">
+            <Grid Grid.Row="0" VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Content="Make synchronous tea"  Click="MakeTeaSynchronous_OnClick"/>
+                <Button Grid.Row="1" Grid.Column="0" Content="Make Async tea"  Click="MakeTeaAsynchronous_OnClick"/>
+                <Button Grid.Row="2" Grid.Column="0" Content="Make Async tea - Configure Await"  Click="MakeTeaAsynchronousConfigureAwaitFalse_OnClick"/>
+                <Button Grid.Row="3" Grid.Column="0" Content="Make Async tea - Heavy"  Click="MakeTeaAsyncHeavy_OnClick"/>
+                <Button Grid.Row="4" Grid.Column="0" Content="Make Async tea - Exception"  Click="MakeTeaAsyncWithException_OnClick"/>
+                <Button Grid.Row="5" Grid.Column="0" Content="Make Async tea - Exception without await"  Click="MakeTeaAsyncWithExceptionWithoutAwait_OnClick"/>
+                <Button Grid.Row="6" Grid.Column="0" Content="Make Async tea - Exception with async void"  Click="MakeTeaAsyncWithExceptionAndAsyncVoid_OnClick"/>
+            </Grid>
+            
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="250" />
+                </Grid.ColumnDefinitions>
+                <GroupBox Padding="5" Grid.Column="1">
+                    <GroupBox.Header>Notes</GroupBox.Header>
+                    <TextBox x:Name="Notes" Padding="5" AcceptsReturn="True" TextWrapping="Wrap" />
+                </GroupBox>
+            </Grid>
+        </Grid>
+    </DockPanel>
+</Window>
