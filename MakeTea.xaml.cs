@@ -1,5 +1,7 @@
 using System;
+using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using Asynchronous_Operations.Services;
 
@@ -8,28 +10,50 @@ namespace Asynchronous_Operations
     public partial class MakeTea : Window
     {
         private static StringBuilder _finalMessage;
-        
+        private Stopwatch stopwatch = new Stopwatch();
+
         public MakeTea()
         {
             InitializeComponent();
         }
+        
+        private void BeforeMakingTea()
+        {
+            stopwatch.Restart();
+            TeaProgress.Visibility = Visibility.Visible;
+            TeaProgress.IsIndeterminate = true;
+            MakingTeatStatus.Text = $"Making tea. Sit tight.";
+        }
+        
+        private void AfterMakingTea()
+        {
+            MakingTeatStatus.Text = $"Made tea in {stopwatch.ElapsedMilliseconds}ms";
+            TeaProgress.Visibility = Visibility.Hidden;
+            stopwatch.Stop();
+        }
 
         private void MakeTeaSynchronous_OnClick(object sender, RoutedEventArgs e)
         {
+            BeforeMakingTea();
             _finalMessage = new StringBuilder();
             _finalMessage.AppendLine("Making tea started.");
             _finalMessage.AppendLine(MakeTeaSynchronous.MakeMeTea());
 
             Notes.Text = _finalMessage.ToString();
+            
+            AfterMakingTea();
         }
 
         private async void MakeTeaAsynchronous_OnClick(object sender, RoutedEventArgs e)
         {
+            BeforeMakingTea();
             _finalMessage = new StringBuilder();
             _finalMessage.AppendLine("Making tea started.");
             _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync());
 
             Notes.Text = _finalMessage.ToString();
+            
+            AfterMakingTea();
         }
         
         /// <summary>
@@ -39,6 +63,8 @@ namespace Asynchronous_Operations
         /// <param name="e"></param>
         private async void MakeTeaAsynchronousConfigureAwaitFalse_OnClick(object sender, RoutedEventArgs e)
         {
+            BeforeMakingTea();
+
             _finalMessage = new StringBuilder();
             _finalMessage.AppendLine("Making tea started.");
             
@@ -48,19 +74,24 @@ namespace Asynchronous_Operations
             _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync().ConfigureAwait(false));
 
             Notes.Text = _finalMessage.ToString();
+            AfterMakingTea();
         }
 
         private async void MakeTeaAsyncHeavy_OnClick(object sender, RoutedEventArgs e)
         {
+            BeforeMakingTea();
             _finalMessage = new StringBuilder();
             _finalMessage.AppendLine("Making tea started.");
             _finalMessage.AppendLine(await MakeHeavyTaskTea.MakeMeHeavyTeaAsync());
 
             Notes.Text = _finalMessage.ToString();
+            AfterMakingTea();
         }
         
         private async void MakeTeaAsyncWithException_OnClick(object sender, RoutedEventArgs e)
         {
+            BeforeMakingTea();
+
             try
             {
                 _finalMessage = new StringBuilder();
@@ -73,10 +104,12 @@ namespace Asynchronous_Operations
             {
                 Notes.Text = exception.Message;
             }
+            AfterMakingTea();
         }
 
         private async void MakeTeaAsyncWithExceptionWithoutAwait_OnClick(object sender, RoutedEventArgs e)
         {
+            BeforeMakingTea();
             try
             {
                 _finalMessage = new StringBuilder();
@@ -94,6 +127,7 @@ namespace Asynchronous_Operations
                 // can see that is not "async" and the next message is shown.
                 Notes.Text = exception.Message;
             }
+            AfterMakingTea();
         }
 
         /// <summary>
@@ -103,6 +137,7 @@ namespace Asynchronous_Operations
         /// <param name="e"></param>
         private void MakeTeaAsyncWithExceptionAndAsyncVoid_OnClick(object sender, RoutedEventArgs e)
         {
+            BeforeMakingTea();
             try
             {
                 _finalMessage = new StringBuilder();
@@ -115,7 +150,53 @@ namespace Asynchronous_Operations
             catch (Exception exception)
             {
                 Notes.Text = exception.Message;
-            }        
+            }
+            AfterMakingTea();
+        }
+        
+        /// <summary>
+        /// This will "seems" that is working, but taking deeper look, we can see that actually an error was thrown. 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MakeTeaAsyncUsingTPLNoDispatcher_OnClick(object sender, RoutedEventArgs e)
+        {
+            BeforeMakingTea();
+            Task.Run(async () =>
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                
+                _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync());
+                Notes.Text = _finalMessage.ToString();
+            });
+            AfterMakingTea();
+        }
+
+        /// <summary>
+        /// This method now will work, but is not telling us how long it took to make the tea.
+        /// This is because the Task.Run will be queued on the thread pool and completes instantly, because
+        /// it's been executed in a different thread. Therefore the next piece of code (After) will execute.
+        /// We need to introduce the concept of Continuation.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MakeTeaAsyncUsingTPL_OnClick(object sender, RoutedEventArgs e)
+        {
+            BeforeMakingTea();
+            Task.Run(async () =>
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                
+                _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync());
+
+                Dispatcher.Invoke(() =>
+                { 
+                    Notes.Text = _finalMessage.ToString();
+                });
+            });
+            AfterMakingTea();
         }
     }
 }

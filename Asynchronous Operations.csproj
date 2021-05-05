@@ -52,6 +52,7 @@
         </ApplicationDefinition>
         <Compile Include="Services\MakeHeavyTaskTea.cs" />
         <Compile Include="Services\MakeTeaAsync.cs" />
+        <Compile Include="Services\MakeTeaAsyncTPL.cs" />
         <Compile Include="Services\MakeTeaAsyncWithException.cs" />
         <Compile Include="Services\MakeTeaSynchronous.cs" />
         <Compile Include="Services\MakeTeaWithTPL.cs" />
@@ -95,6 +96,9 @@
     </ItemGroup>
     <ItemGroup>
       <Content Include="StockPrices_Small.csv" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Services\TPL" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
