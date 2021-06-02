@@ -1,28 +1,32 @@
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Asynchronous_Operations.Services
+namespace Asynchronous_Operations.Services.TPL
 {
     public static class MakeTeaAsyncTPL
     {
         private static StringBuilder finalMessage;
-        public static async Task<string> MakeMeTeaAsync()
+        public static Task<string> MakeMeTeaAsync()
         {
             finalMessage = new StringBuilder();
-            
-            // Will go inside the method
-            var boilingWaterAsync = BoilWater();
-	
-            finalMessage.AppendLine("4) Take the cups out.");
-            finalMessage.AppendLine("5) Put tea in cups.");
 
-            // New continuation introduced. Will wait until the data is loaded/available. We will passed back to the UI.
-            var water = await boilingWaterAsync;
-            
-            var tea = $"6) Pour {water} in cups.";
-            finalMessage.AppendLine(tea);
+            var boilWaterTask = Task.Run(async () =>
+            {
+                var waterTask = BoilWater();
 
-            return finalMessage.ToString();
+                finalMessage.AppendLine("4) Take the cups out.");
+                finalMessage.AppendLine("5) Put tea in cups.");
+
+                return await waterTask;
+            });
+
+            return boilWaterTask.ContinueWith((completedTask) =>
+            {
+                var tea = $"6) Pour {completedTask.Result} in cups.";
+                finalMessage.AppendLine(tea);
+
+                return finalMessage.ToString();
+            });
         }
 
         private static async Task<string> BoilWater()

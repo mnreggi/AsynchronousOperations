@@ -1,9 +1,11 @@
 using System;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Asynchronous_Operations.Services;
+using Asynchronous_Operations.Services.TPL;
 
 namespace Asynchronous_Operations
 {
@@ -11,6 +13,7 @@ namespace Asynchronous_Operations
     {
         private static StringBuilder _finalMessage;
         private Stopwatch stopwatch = new Stopwatch();
+        CancellationTokenSource cancellationTokenSource;
 
         public MakeTea()
         {
@@ -181,7 +184,7 @@ namespace Asynchronous_Operations
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MakeTeaAsyncUsingTPL_OnClick(object sender, RoutedEventArgs e)
+        private void MakeTeaAsyncUsingTPLDispatcher_OnClick(object sender, RoutedEventArgs e)
         {
             BeforeMakingTea();
             Task.Run(async () =>
@@ -197,6 +200,148 @@ namespace Asynchronous_Operations
                 });
             });
             AfterMakingTea();
+        }
+        
+        private async void MakeTeaAsyncAwaitUsingTPLDispatcher_OnClick(object sender, RoutedEventArgs e)
+        {
+            BeforeMakingTea();
+            await Task.Run(async () =>
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                
+                _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync());
+
+                Dispatcher.Invoke(() =>
+                { 
+                    Notes.Text = _finalMessage.ToString();
+                });
+            });
+            AfterMakingTea();
+        }
+        
+        private void MakeTeaAsyncUsingTPLDispatcherContinuation_OnClick(object sender, RoutedEventArgs e)
+        {
+            BeforeMakingTea();
+            var makeTeaTask = Task.Run(async () =>
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                
+                _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync());
+
+                Dispatcher.Invoke(() =>
+                { 
+                    Notes.Text = _finalMessage.ToString();
+                });
+            });
+            
+            makeTeaTask.ContinueWith(_ =>
+            {
+                Dispatcher.Invoke(AfterMakingTea);
+            });
+        }
+        
+        private void MakeTeaAsyncUsingTPLDispatcherContinuationSecondAttempt_OnClick(object sender, RoutedEventArgs e)
+        {
+            BeforeMakingTea();
+            var makeTeaTask = Task.Run(async () =>
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                
+                _finalMessage.AppendLine(await MakeTeaAsyncTPL.MakeMeTeaAsync());
+
+                Dispatcher.Invoke(() =>
+                { 
+                    Notes.Text = _finalMessage.ToString();
+                });
+            });
+            
+            makeTeaTask.ContinueWith(_ =>
+            {
+                Dispatcher.Invoke(AfterMakingTea);
+            });
+        }
+        
+        private void MakeTeaAsyncUsingTPLCancellationFirstAttempt_OnClick(object sender, RoutedEventArgs e)
+        {
+            if(cancellationTokenSource != null)
+            {
+                // Already have an instance of the cancellation token source?
+                // This means the button has already been pressed!
+
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource = null;
+
+                TplCancellationFirstButton.Content = "TPL - Cancellation";
+                return;
+            }
+
+            cancellationTokenSource = new CancellationTokenSource();
+            
+            TplCancellationFirstButton.Content = "Cancel";
+
+            BeforeMakingTea();
+            var makeTeaTask = Task.Run(async () =>
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                
+                _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync());
+
+                Dispatcher.Invoke(() =>
+                { 
+                    Notes.Text = _finalMessage.ToString();
+                });
+            }, cancellationTokenSource.Token);
+            
+            makeTeaTask.ContinueWith(_ =>
+            {
+                Dispatcher.Invoke(AfterMakingTea);
+                cancellationTokenSource = null;
+                TplCancellationFirstButton.Content = "TPL - Cancellation";
+            });
+        }
+
+        private void MakeTeaAsyncUsingTPLCancellationSecondAttempt_OnClick(object sender, RoutedEventArgs e)
+        {
+            if(cancellationTokenSource != null)
+            {
+                // Already have an instance of the cancellation token source?
+                // This means the button has already been pressed!
+
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource = null;
+
+                TplCancellationSecondButton.Content = "TPL - Cancellation 2";
+                return;
+            }
+
+            cancellationTokenSource = new CancellationTokenSource();
+            
+            TplCancellationSecondButton.Content = "Cancel";
+
+            BeforeMakingTea();
+            var makeTeaTask = Task.Run(async () =>
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                
+                _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync());
+
+                Dispatcher.Invoke(() =>
+                { 
+                    Notes.Text = _finalMessage.ToString();
+                });
+            }, cancellationTokenSource.Token);
+
+            makeTeaTask.ContinueWith(_ =>
+            {
+                Dispatcher.Invoke(AfterMakingTea);
+                cancellationTokenSource = null;
+                TplCancellationSecondButton.Content = "TPL - Cancellation 2";
+            });
         }
     }
 }

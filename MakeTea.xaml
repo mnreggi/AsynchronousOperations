@@ -27,19 +27,32 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="200" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="200" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Row="0" Grid.Column="0" Content="Make synchronous tea"  Click="MakeTeaSynchronous_OnClick"/>
-                <Button Grid.Row="1" Grid.Column="0" Content="Make Async tea"  Click="MakeTeaAsynchronous_OnClick"/>
-                <Button Grid.Row="2" Grid.Column="0" Content="Make Async tea - Configure Await"  Click="MakeTeaAsynchronousConfigureAwaitFalse_OnClick"/>
-                <Button Grid.Row="3" Grid.Column="0" Content="Make Async tea - Heavy"  Click="MakeTeaAsyncHeavy_OnClick"/>
-                <Button Grid.Row="4" Grid.Column="0" Content="Make Async tea - Exception"  Click="MakeTeaAsyncWithException_OnClick"/>
-                <Button Grid.Row="5" Grid.Column="0" Content="Make Async tea - Exception without await"  Click="MakeTeaAsyncWithExceptionWithoutAwait_OnClick"/>
-                <Button Grid.Row="6" Grid.Column="0" Content="Make Async tea - Exception with async void"  Click="MakeTeaAsyncWithExceptionAndAsyncVoid_OnClick"/>
-                <Button Grid.Row="7" Grid.Column="0" Content="Make Async tea - With TPL and No dispatcher"  Click="MakeTeaAsyncUsingTPLNoDispatcher_OnClick"/>
-                <Button Grid.Row="8" Grid.Column="0" Content="Make Async tea - With TPL"  Click="MakeTeaAsyncUsingTPL_OnClick"/>
+                <GridViewColumnHeader Grid.Row="0" Grid.Column="0">Async/Await</GridViewColumnHeader>
+                <GridViewColumnHeader Grid.Row="0" Grid.Column="2">TPL</GridViewColumnHeader>
+
+                <Button Grid.Row="1" Grid.Column="0" Content="Synchronous"  Click="MakeTeaSynchronous_OnClick"/>
+                <Button Grid.Row="2" Grid.Column="0" Content="Async"  Click="MakeTeaAsynchronous_OnClick"/>
+                <Button Grid.Row="3" Grid.Column="0" Content="Async - Configure Await"  Click="MakeTeaAsynchronousConfigureAwaitFalse_OnClick"/>
+                <Button Grid.Row="4" Grid.Column="0" Content="Async - Heavy"  Click="MakeTeaAsyncHeavy_OnClick"/>
+                <Button Grid.Row="5" Grid.Column="0" Content="Async - Exception"  Click="MakeTeaAsyncWithException_OnClick"/>
+                <Button Grid.Row="6" Grid.Column="0" Content="Async - Exception without await"  Click="MakeTeaAsyncWithExceptionWithoutAwait_OnClick"/>
+                <Button Grid.Row="7" Grid.Column="0" Content="Async - Exception with async void"  Click="MakeTeaAsyncWithExceptionAndAsyncVoid_OnClick"/>
+                <Button Grid.Row="1" Grid.Column="2" Content="TPL - No dispatcher"  Click="MakeTeaAsyncUsingTPLNoDispatcher_OnClick"/>
+                <Button Grid.Row="2" Grid.Column="2" Content="TPL - Dispatcher"  Click="MakeTeaAsyncUsingTPLDispatcher_OnClick"/>
+                <Button Grid.Row="3" Grid.Column="2" Content="TPL - Await Dispatcher"  Click="MakeTeaAsyncAwaitUsingTPLDispatcher_OnClick"/>
+                <Button Grid.Row="4" Grid.Column="2" Content="TPL - Dispatcher Continue With"  Click="MakeTeaAsyncUsingTPLDispatcherContinuation_OnClick"/>
+                <Button Grid.Row="5" Grid.Column="2" Content="TPL - Dispatcher Continue With 2"  Click="MakeTeaAsyncUsingTPLDispatcherContinuationSecondAttempt_OnClick"/>
+                <Button Grid.Row="6" Grid.Column="2" x:Name="TplCancellationFirstButton" Content="TPL - Cancellation 1"  Click="MakeTeaAsyncUsingTPLCancellationFirstAttempt_OnClick"/>
+                <Button Grid.Row="7" Grid.Column="2" x:Name="TplCancellationSecondButton" Content="TPL - Cancellation 2"  Click="MakeTeaAsyncUsingTPLCancellationSecondAttempt_OnClick"/>
             </Grid>
             
             <Grid Grid.Row="0">
