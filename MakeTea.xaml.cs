@@ -80,6 +80,11 @@ namespace Asynchronous_Operations
             AfterMakingTea();
         }
 
+        /// <summary>
+        /// Let's simulate a big workload here, assume that someone is knocking your door and you want to receive that person.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MakeTeaAsyncHeavy_OnClick(object sender, RoutedEventArgs e)
         {
             BeforeMakingTea();
@@ -100,6 +105,30 @@ namespace Asynchronous_Operations
                 _finalMessage = new StringBuilder();
                 _finalMessage.AppendLine("Making tea started.");
                 _finalMessage.AppendLine(await MakeTeaAsyncWithException.MakeMeTeaAsync());
+
+                Notes.Text = _finalMessage.ToString();
+            }
+            catch (Exception exception)
+            {
+                Notes.Text = exception.Message;
+            }
+            AfterMakingTea();
+        }
+        
+        /// <summary>
+        /// This scenario will cause a Deadlock
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MakeTeaAsyncDeadlock_OnClick(object sender, RoutedEventArgs e)
+        {
+            BeforeMakingTea();
+            try
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                MakeTeaAsync.MakeMeTeaAsync().Wait();
+                _finalMessage.AppendLine("After calling the method async");
 
                 Notes.Text = _finalMessage.ToString();
             }
@@ -342,6 +371,30 @@ namespace Asynchronous_Operations
                 cancellationTokenSource = null;
                 TplCancellationSecondButton.Content = "TPL - Cancellation 2";
             });
+        }
+
+
+
+        /// <summary>
+        /// Step 1: UI context, click button.
+        /// Step 2: MyAsyncIntToString(7) is executed. UI Context.
+        /// Step 3: Hits the await Task.Delay. Fires a new thread that will have attached the context that needs to come back.
+        /// Step 4: Goes back to GiveMeStringFromAnInt and execute the next line.
+        /// Step 5: myTask.Result will block the Context (UI) to wait for the result.
+        /// Step 6: At some point, the awaited task will finish and will wait for the Context to be free so it can run the continuation.
+        /// Step 7: Deadlock. .Result blocks the context while waiting for the task to finish + the Task is waiting for the context to be released.
+        /// </summary>
+        /// <returns></returns>
+        public string GiveMeStringFromAnInt()
+        {
+            var myTask = MyAsyncIntToString(7);
+            return myTask.Result;
+        }
+
+        private static async Task<string> MyAsyncIntToString(int number)
+        {
+            await Task.Delay(1000);
+            return number.ToString();
         }
     }
 }
