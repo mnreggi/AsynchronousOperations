@@ -16,6 +16,6 @@
                         <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button x:Name="makeTeaExample" Grid.Row="0" Grid.Column="0" Content="Make Tea Example" HorizontalAlignment="Center" Click="MakeTeaExample_OnClick"/>
-                <Button x:Name="stocksExample" Grid.Row="0" Grid.Column="1" Content="Stocks Example" HorizontalAlignment="Center" Click="StocksExample_OnClick"/>
+                <Button x:Name="peopleExample" Grid.Row="0" Grid.Column="1" Content="People Example" HorizontalAlignment="Center" Click="PeopleExample_OnClick"/>
         </Grid>
 </Window>

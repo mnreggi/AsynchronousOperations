@@ -34,6 +34,10 @@
         <WarningLevel>4</WarningLevel>
     </PropertyGroup>
     <ItemGroup>
+        <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+          <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+          <Private>True</Private>
+        </Reference>
         <Reference Include="System" />
         <Reference Include="System.Core" />
         <Reference Include="System.Data" />
@@ -50,14 +54,17 @@
             <Generator>MSBuild:Compile</Generator>
             <SubType>Designer</SubType>
         </ApplicationDefinition>
+        <Compile Include="Services\FileExample\People.cs" />
+        <Compile Include="Services\FileExample\PeopleService.cs" />
+        <Compile Include="Services\FileExample\StreamService.cs" />
         <Compile Include="Services\MakeHeavyTaskTea.cs" />
         <Compile Include="Services\MakeTeaAsync.cs" />
         <Compile Include="Services\MakeTeaAsyncWithException.cs" />
         <Compile Include="Services\MakeTeaSynchronous.cs" />
         <Compile Include="Services\MakeTeaWithTPL.cs" />
         <Compile Include="Services\TPL\MakeTeaAsyncTPL.cs" />
-        <Compile Include="StocksExample.xaml.cs">
-          <DependentUpon>StocksExample.xaml</DependentUpon>
+        <Compile Include="FileExample.xaml.cs">
+          <DependentUpon>FileExample.xaml</DependentUpon>
         </Compile>
         <Page Include="MainWindow.xaml">
             <Generator>MSBuild:Compile</Generator>
@@ -72,7 +79,7 @@
             <SubType>Code</SubType>
         </Compile>
         <Page Include="MakeTea.xaml" />
-        <Page Include="StocksExample.xaml" />
+        <Page Include="FileExample.xaml" />
     </ItemGroup>
     <ItemGroup>
         <Compile Include="MakeTea.xaml.cs">
@@ -93,9 +100,7 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="App.config" />
-    </ItemGroup>
-    <ItemGroup>
-      <Content Include="StockPrices_Small.csv" />
+        <None Include="packages.config" />
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -19,9 +19,9 @@ namespace Asynchronous_Operations
             example.Show();
         }
 
-        private void StocksExample_OnClick(object sender, RoutedEventArgs e)
+        private void PeopleExample_OnClick(object sender, RoutedEventArgs e)
         {
-            var example = new StocksExample();
+            var example = new FileExample();
             example.Show();
         }
     }

@@ -55,7 +55,6 @@
                 <Button Grid.Row="5" Grid.Column="2" Content="TPL - Dispatcher Continue With 2"  Click="MakeTeaAsyncUsingTPLDispatcherContinuationSecondAttempt_OnClick"/>
                 <Button Grid.Row="6" Grid.Column="2" x:Name="TplCancellationFirstButton" Content="TPL - Cancellation 1"  Click="MakeTeaAsyncUsingTPLCancellationFirstAttempt_OnClick"/>
                 <Button Grid.Row="7" Grid.Column="2" x:Name="TplCancellationSecondButton" Content="TPL - Cancellation 2"  Click="MakeTeaAsyncUsingTPLCancellationSecondAttempt_OnClick"/>
-                <Button Grid.Row="9" Grid.Column="2" Content="Testing" Click="ButtonBase_OnClick"/>
             </Grid>
             
             <Grid Grid.Row="0">
