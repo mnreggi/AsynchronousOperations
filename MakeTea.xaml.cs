@@ -20,6 +20,11 @@ namespace Asynchronous_Operations
             InitializeComponent();
         }
         
+        /// <summary>
+        /// Will restart the Stopwatch
+        /// Start progress bar
+        /// Show some text
+        /// </summary>
         private void BeforeMakingTea()
         {
             stopwatch.Restart();
@@ -28,13 +33,24 @@ namespace Asynchronous_Operations
             MakingTeatStatus.Text = $"Making tea. Sit tight.";
         }
         
+        /// <summary>
+        /// Stopwatch.
+        /// Show amount of time.
+        /// Hide progress bar
+        /// </summary>
         private void AfterMakingTea()
         {
+            stopwatch.Stop();
             MakingTeatStatus.Text = $"Made tea in {stopwatch.ElapsedMilliseconds}ms";
             TeaProgress.Visibility = Visibility.Hidden;
-            stopwatch.Stop();
         }
 
+        /// <summary>
+        /// Will make the tea in a sync way.
+        /// This will freeze the UI until the code has been executed.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MakeTeaSynchronous_OnClick(object sender, RoutedEventArgs e)
         {
             BeforeMakingTea();
@@ -47,15 +63,53 @@ namespace Asynchronous_Operations
             AfterMakingTea();
         }
 
+        /// <summary>
+        /// Will make the tea in a async way.
+        /// The UI thread is available again and we can perform any actions while the code is been executed somewhere else.
+        /// This will introduce a state machine and a continuation. Once the job is done, the UI thread will update the finalMessasge text
+        /// And carry on with the following piece of code.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MakeTeaAsynchronous_OnClick(object sender, RoutedEventArgs e)
         {
+            // UI Thread
             BeforeMakingTea();
             _finalMessage = new StringBuilder();
             _finalMessage.AppendLine("Making tea started.");
+            
+            // Will spin a new thread and the UI thread is released from the work.
             _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync());
 
             Notes.Text = _finalMessage.ToString();
             
+            AfterMakingTea();
+        }
+        
+        /// <summary>
+        /// This scenario will cause a Deadlock. See GiveMeStringFromAnInt() for a more info.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void MakeTeaAsyncDeadlock_OnClick(object sender, RoutedEventArgs e)
+        {
+            BeforeMakingTea();
+            try
+            {
+                _finalMessage = new StringBuilder();
+                _finalMessage.AppendLine("Making tea started.");
+                MakeTeaAsync.MakeMeTeaAsync().Wait();
+                
+                // Now comment the above Wait() and try the below line instead.
+                // var result = MakeTeaAsync.MakeMeTeaAsync().Result;
+                _finalMessage.AppendLine("After calling the method async");
+
+                Notes.Text = _finalMessage.ToString();
+            }
+            catch (Exception exception)
+            {
+                Notes.Text = exception.Message;
+            }
             AfterMakingTea();
         }
         
@@ -71,7 +125,7 @@ namespace Asynchronous_Operations
             _finalMessage = new StringBuilder();
             _finalMessage.AppendLine("Making tea started.");
             
-            // Adding ConfigureAwait false, will indicate that we don't care that the continuation be executed in a different thread.
+            // Adding ConfigureAwait false, will indicate that we don't care that the continuation been executed in a different thread.
             // Because this is a UI component, we can see that we are trying to update the UI with something, and because we are
             // in a different thread in the continuation, the application will crash.
             _finalMessage.AppendLine(await MakeTeaAsync.MakeMeTeaAsync().ConfigureAwait(false));
@@ -96,6 +150,11 @@ namespace Asynchronous_Operations
             AfterMakingTea();
         }
         
+        /// <summary>
+        /// Now, let's throw an exception inside an async method.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MakeTeaAsyncWithException_OnClick(object sender, RoutedEventArgs e)
         {
             BeforeMakingTea();
@@ -114,31 +173,12 @@ namespace Asynchronous_Operations
             }
             AfterMakingTea();
         }
-        
+
         /// <summary>
-        /// This scenario will cause a Deadlock
+        /// Does the async keyword affect the Exception? If we remove the async keyword from the async task that we are executing
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void MakeTeaAsyncDeadlock_OnClick(object sender, RoutedEventArgs e)
-        {
-            BeforeMakingTea();
-            try
-            {
-                _finalMessage = new StringBuilder();
-                _finalMessage.AppendLine("Making tea started.");
-                MakeTeaAsync.MakeMeTeaAsync().Wait();
-                _finalMessage.AppendLine("After calling the method async");
-
-                Notes.Text = _finalMessage.ToString();
-            }
-            catch (Exception exception)
-            {
-                Notes.Text = exception.Message;
-            }
-            AfterMakingTea();
-        }
-
         private async void MakeTeaAsyncWithExceptionWithoutAwait_OnClick(object sender, RoutedEventArgs e)
         {
             BeforeMakingTea();
@@ -146,6 +186,8 @@ namespace Asynchronous_Operations
             {
                 _finalMessage = new StringBuilder();
                 _finalMessage.AppendLine("Making tea started.");
+                
+                // Will go inside the method. Will execute everything that has been established. When it reaches the await it will come back to the caller.
                 MakeTeaAsyncWithException.MakeMeTeaAsyncInTryCatch();
                 _finalMessage.AppendLine("After calling the method async");
 
@@ -164,6 +206,7 @@ namespace Asynchronous_Operations
 
         /// <summary>
         /// This will terminate the app.
+        /// Is there any difference between this and Exception_OnClick?
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -395,6 +438,11 @@ namespace Asynchronous_Operations
         {
             await Task.Delay(1000);
             return number.ToString();
+        }
+
+        private void Exception_OnClick(object sender, RoutedEventArgs e)
+        {
+            throw new Exception("Hi");
         }
     }
 }

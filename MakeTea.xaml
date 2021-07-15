@@ -31,6 +31,7 @@
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200" />
@@ -56,6 +57,16 @@
                 <Button Grid.Row="6" Grid.Column="2" x:Name="TplCancellationFirstButton" Content="TPL - Cancellation 1"  Click="MakeTeaAsyncUsingTPLCancellationFirstAttempt_OnClick"/>
                 <Button Grid.Row="7" Grid.Column="2" x:Name="TplCancellationSecondButton" Content="TPL - Cancellation 2"  Click="MakeTeaAsyncUsingTPLCancellationSecondAttempt_OnClick"/>
             </Grid>
+            
+            <Grid Grid.Row="0" VerticalAlignment="Bottom">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="250" />
+                </Grid.ColumnDefinitions>
+                <GroupBox Padding="5" Grid.Column="1">
+                    <Button Content="Throw an exception"  Click="Exception_OnClick"/>
+                </GroupBox>
+            </Grid>
+            
             
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
