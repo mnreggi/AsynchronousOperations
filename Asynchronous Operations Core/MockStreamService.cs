@@ -15,6 +15,7 @@ namespace Asynchronous_Operations_Core
         // Instead of using the 'return' statement we are going to use the 'yield return'
         // Here it will fakes that it takes about 500 milliseconds to retrieve an item.
         // The caller will be able to get each item after 500ms each.
+        // This is how we PRODUCE a Stream of Data
         public async IAsyncEnumerable<People> GetPeople([EnumeratorCancellation] CancellationToken cancellationToken = default)
         {
             await Task.Delay(500, cancellationToken);

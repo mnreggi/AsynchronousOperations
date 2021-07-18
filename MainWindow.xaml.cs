@@ -1,4 +1,5 @@
 ﻿
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Asynchronous_Operations
@@ -23,6 +24,16 @@ namespace Asynchronous_Operations
         {
             var example = new FileExample();
             example.Show();
+        }
+        
+        private async void ThisIsTest()
+        {
+            testNote.Text = "Hi!";
+        }
+        
+        private async Task WriteSomething()
+        {
+            var result = await Task.Run(() => "CMP");
         }
     }
 }

@@ -49,6 +49,7 @@ namespace Asynchronous_Operations_Core
                 // We will use it before the foreach loop.
                 var enumerator = service.GetPeople(cancellationTokenSource.Token);
 
+                // This is how we CONSUME a Stream of Data
                 await foreach (var person in enumerator.WithCancellation(cancellationTokenSource.Token))
                 {
                     if (string.IsNullOrEmpty(CitiesIdentifier.Text) || !string.IsNullOrEmpty(person.City) && CitiesIdentifier.Text.Contains(person.City))
