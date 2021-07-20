@@ -66,7 +66,8 @@ namespace Asynchronous_Operations
         /// <summary>
         /// Will make the tea in a async way.
         /// The UI thread is available again and we can perform any actions while the code is been executed somewhere else.
-        /// This will introduce a state machine and a continuation. Once the job is done, the UI thread will update the finalMessasge text
+        /// This will introduce a state machine and a continuation.
+        /// Once the job is done, the UI thread will update the finalMessasge text
         /// And carry on with the following piece of code.
         /// </summary>
         /// <param name="sender"></param>

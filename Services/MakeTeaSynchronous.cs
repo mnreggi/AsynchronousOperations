@@ -24,10 +24,10 @@ namespace Asynchronous_Operations.Services
         private static string BoilWater()
         {
             finalMessage.AppendLine("1) Start the kettle.");
-            finalMessage.AppendLine("2) Waiting for the kettle 2 seconds.");
+            finalMessage.AppendLine("2) Waiting for the kettle 3 seconds.");
             finalMessage.AppendLine("------ Delay in progress -----");
 
-            Task.Delay(2000).GetAwaiter().GetResult();
+            Task.Delay(3000).GetAwaiter().GetResult();
 
             finalMessage.AppendLine("------ Delay finished -----");
             finalMessage.AppendLine("3) Kettle finished boiling.");

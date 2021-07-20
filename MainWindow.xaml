@@ -15,8 +15,8 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="makeTeaExample" Grid.Row="0" Grid.Column="0" Content="Make Tea Example" HorizontalAlignment="Center" Click="MakeTeaExample_OnClick"/>
-                <Button x:Name="peopleExample" Grid.Row="0" Grid.Column="1" Content="People Example" HorizontalAlignment="Center" Click="PeopleExample_OnClick"/>
+                <Button FontSize="20" x:Name="makeTeaExample" Grid.Row="0" Grid.Column="0" Content="Make Tea Example" HorizontalAlignment="Center" Click="MakeTeaExample_OnClick"/>
+                <Button Background="Black" FontSize="20" x:Name="peopleExample" Grid.Row="0" Grid.Column="1" Content="People Example" HorizontalAlignment="Center" Click="PeopleExample_OnClick"/>
                 <TextBox x:Name="testNote" Grid.Row="0" Grid.Column="1"  Visibility="Hidden"/>
         </Grid>
 </Window>

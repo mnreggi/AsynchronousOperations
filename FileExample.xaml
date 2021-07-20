@@ -20,7 +20,7 @@
                 <RowDefinition Height="Auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <GroupBox Padding="5">
+            <GroupBox Padding="5" FontSize="20">
 
                 <GroupBox.Header>City/cities (example: Christchurch, Taupo)</GroupBox.Header>
 
@@ -29,8 +29,8 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="100" />
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Padding="3" Margin="0 0 20 0" x:Name="CitiesIdentifier"></TextBox>
-                    <Button x:Name="Search" Grid.Column="1" Click="Search_Click">Search</Button>
+                    <TextBox FontSize="20" Grid.Column="0" Padding="3" Margin="0 0 20 0" x:Name="CitiesIdentifier"></TextBox>
+                    <Button FontSize="20" x:Name="Search" Grid.Column="1" Click="Search_Click">Search</Button>
                 </Grid>
             </GroupBox>
             <Grid Grid.Row="1">
@@ -38,13 +38,13 @@
                     <ColumnDefinition />
                     <ColumnDefinition Width="250" />
                 </Grid.ColumnDefinitions>
-                <GroupBox Padding="5">
+                <GroupBox Padding="5" FontSize="20">
                     <GroupBox.Header>People Data</GroupBox.Header>
                     <DataGrid FontSize="20" x:Name="PeopleGrid"></DataGrid>
                 </GroupBox>
-                <GroupBox Padding="5" Grid.Column="1">
+                <GroupBox Padding="5" Grid.Column="1" FontSize="20">
                     <GroupBox.Header>Notes</GroupBox.Header>
-                    <TextBox x:Name="Notes" Padding="5" AcceptsReturn="True" TextWrapping="Wrap" />
+                    <TextBox FontSize="20" x:Name="Notes" Padding="5" AcceptsReturn="True" TextWrapping="Wrap" />
                 </GroupBox>
             </Grid>
         </Grid>
