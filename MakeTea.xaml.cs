@@ -231,7 +231,7 @@ namespace Asynchronous_Operations
         }
         
         /// <summary>
-        /// This will "seems" that is working, but taking deeper look, we can see that actually an error was thrown. 
+        /// This will "seems" that is working, but taking deeper look, we can see that actually an error was thrown (use the debugger).
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -275,6 +275,12 @@ namespace Asynchronous_Operations
             AfterMakingTea();
         }
         
+        /// <summary>
+        /// One way of solving the above issue, is using await. This means that now, we have a continuation.
+        /// And that the code underneath will only executes when the Task finished.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private async void MakeTeaAsyncAwaitUsingTPLDispatcher_OnClick(object sender, RoutedEventArgs e)
         {
             BeforeMakingTea();
@@ -293,6 +299,11 @@ namespace Asynchronous_Operations
             AfterMakingTea();
         }
         
+        /// <summary>
+        /// This example will achieve the same as above but without adding any async and await keyword.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MakeTeaAsyncUsingTPLDispatcherContinuation_OnClick(object sender, RoutedEventArgs e)
         {
             BeforeMakingTea();
@@ -317,24 +328,30 @@ namespace Asynchronous_Operations
         
         private void MakeTeaAsyncUsingTPLDispatcherContinuationSecondAttempt_OnClick(object sender, RoutedEventArgs e)
         {
-            BeforeMakingTea();
-            var makeTeaTask = Task.Run(async () =>
+            try
             {
+                BeforeMakingTea();
                 _finalMessage = new StringBuilder();
                 _finalMessage.AppendLine("Making tea started.");
-                
-                _finalMessage.AppendLine(await MakeTeaAsyncTPL.MakeMeTeaAsync());
-
-                Dispatcher.Invoke(() =>
-                { 
-                    Notes.Text = _finalMessage.ToString();
+                var tplTask = Task.Run(() => MakeTeaAsyncTPL.MakeMeTeaAsync());
+                var lastTask = tplTask.ContinueWith(resultFromTask =>
+                {
+                    _finalMessage.AppendLine(resultFromTask.Result);
                 });
-            });
-            
-            makeTeaTask.ContinueWith(_ =>
+
+                lastTask.ContinueWith(_ =>
+                {
+                    Dispatcher.Invoke(() =>
+                    {
+                        Notes.Text = _finalMessage.ToString();
+                        AfterMakingTea();
+                    });
+                });
+            }
+            catch (Exception exception)
             {
-                Dispatcher.Invoke(AfterMakingTea);
-            });
+                Notes.Text = exception.Message;
+            }
         }
         
         private void MakeTeaAsyncUsingTPLCancellationFirstAttempt_OnClick(object sender, RoutedEventArgs e)
