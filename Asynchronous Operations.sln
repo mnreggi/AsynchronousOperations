@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asynchronous Operations", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Asynchronous Operations Core", "Asynchronous Operations Core\Asynchronous Operations Core.csproj", "{F6B83DFD-023B-4246-BF78-0508AD48CEFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{24275041-07D0-46DE-AC63-681A234FCCA0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPL Async Op", "TPL Async Op\TPL Async Op.csproj", "{3B748FAD-151E-4A79-970E-A69FECD65623}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{F6B83DFD-023B-4246-BF78-0508AD48CEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6B83DFD-023B-4246-BF78-0508AD48CEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6B83DFD-023B-4246-BF78-0508AD48CEFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24275041-07D0-46DE-AC63-681A234FCCA0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24275041-07D0-46DE-AC63-681A234FCCA0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24275041-07D0-46DE-AC63-681A234FCCA0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24275041-07D0-46DE-AC63-681A234FCCA0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B748FAD-151E-4A79-970E-A69FECD65623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B748FAD-151E-4A79-970E-A69FECD65623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B748FAD-151E-4A79-970E-A69FECD65623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B748FAD-151E-4A79-970E-A69FECD65623}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

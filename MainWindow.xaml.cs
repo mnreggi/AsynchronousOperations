@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Asynchronous_Operations
@@ -29,10 +31,23 @@ namespace Asynchronous_Operations
         {
             testNote.Text = "Hi!";
         }
-        
+
         private async Task WriteSomething()
         {
             var result = await Task.Run(() => "CMP");
+        }
+        
+        private async Task WriteSomething55()
+        {
+            // Part 1
+            var client = new HttpClient();
+            var page = await client.GetStringAsync("http://google.com");
+
+            // Part 2 - Continuation
+            if (page == "CMP")
+            {
+                Console.WriteLine(@"Huge Success");
+            }
         }
     }
 }
