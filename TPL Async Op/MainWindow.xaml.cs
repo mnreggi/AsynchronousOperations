@@ -24,7 +24,7 @@ namespace TPL_Async_Op
             InitializeComponent();
         }
 
-        private void Search_Click(object sender, RoutedEventArgs e)
+        private async void Search_Click(object sender, RoutedEventArgs e)
         {
             BeforeLoadingStockData();
             
@@ -104,6 +104,25 @@ namespace TPL_Async_Op
             //     () => { bag.Add(Calculate(stocks["BTC"])); },
             //     () => { bag.Add(Calculate(stocks["AMAZ"])); }
             // );
+            //
+            // Stocks.ItemsSource = bag;
+            //
+            // AfterLoadingStockData();
+
+            #endregion
+            
+            #region Approach 5 (Using Parallel class + Async)
+            
+            // var bag = new ConcurrentBag<StockCalculation>();
+            // await Task.Run(() =>
+            // {
+            //     Parallel.Invoke(
+            //         () => { bag.Add(Calculate(stocks["MSFT"])); },
+            //         () => { bag.Add(Calculate(stocks["GOOGL"])); },
+            //         () => { bag.Add(Calculate(stocks["BTC"])); },
+            //         () => { bag.Add(Calculate(stocks["AMAZ"])); }
+            //     );
+            // });
             //
             // Stocks.ItemsSource = bag;
             //
