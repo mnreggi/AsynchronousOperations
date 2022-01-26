@@ -129,6 +129,51 @@ namespace TPL_Async_Op
             // AfterLoadingStockData();
 
             #endregion
+            
+            #region (Using Parallel class + Async + Throwing Exception)
+            
+            // var bag = new ConcurrentBag<StockCalculation>();
+            // try
+            // {
+            //     await Task.Run(() =>
+            //     {
+            //         try
+            //         {
+            //             Parallel.Invoke(
+            //                 () =>
+            //                 {
+            //                     bag.Add(Calculate(stocks["MSFT"]));
+            //                     throw new Exception("MSFT Exception");
+            //                 },
+            //                 () => { bag.Add(Calculate(stocks["GOOGL"])); },
+            //                 () =>
+            //                 {
+            //                     bag.Add(Calculate(stocks["BTC"]));
+            //                     throw new Exception("BTC Exception");
+            //                 },
+            //                 () => { bag.Add(Calculate(stocks["AMAZ"])); }
+            //             );
+            //         }
+            //         catch (Exception exception)
+            //         {
+            //             Console.WriteLine(exception);
+            //             throw;
+            //         }
+            //     });
+            // }
+            // catch (Exception exception)
+            // {
+            //     var aggregateException = exception as AggregateException;
+            //     var message =
+            //         $"{exception.Message} - InnerException count: {aggregateException?.InnerExceptions.Count} - {aggregateException?.InnerExceptions.Aggregate(string.Empty, (current, exceptionInnerException) => current + exceptionInnerException.Message + "\n")}";
+            //     Notes.Text = message;
+            // }
+            //
+            // Stocks.ItemsSource = bag;
+            //
+            // AfterLoadingStockData();
+
+            #endregion
         }
 
         private IEnumerable<StockPrice> Generate(string stockIdentifier)
