@@ -174,6 +174,30 @@ namespace TPL_Async_Op
             // AfterLoadingStockData();
 
             #endregion
+            
+            #region Using Parallel For and ForEach.
+            
+            // var bag = new ConcurrentBag<StockCalculation>();
+            //
+            // await Task.Run(() =>
+            // {
+            //     Parallel.ForEach(stocks, new ParallelOptions{ MaxDegreeOfParallelism = 1}, (element, state)  =>
+            //     {
+            //         if (element.Key == "MSFT")
+            //         {
+            //             state.Break();
+            //             return;
+            //         }
+            //         var result = Calculate(element.Value);
+            //         bag.Add(result);
+            //     });
+            // });
+            //
+            // Stocks.ItemsSource = bag;
+            //
+            // AfterLoadingStockData();
+            
+            #endregion
         }
 
         private IEnumerable<StockPrice> Generate(string stockIdentifier)
